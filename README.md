@@ -8,7 +8,7 @@ So, some script files are to be added and the existing ones are to be updated.
 However, the existing files are fully functional and they can represent the main idea and a large part of the project.  
 
 # How to run this:  
-The main file calls whatever is necessary from the rest of the files.  
+The main file calls whatever is required from the rest of the files.  
 So, running only the main.py is enough.  
 
 The Colab notebook just calls the main.py and runs it on Google Colab.  
