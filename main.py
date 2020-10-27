@@ -4,6 +4,8 @@ import numpy as np
 from math import ceil
 import tensorflow as tf
 
+#MALAKIES
+
 """ Imported files """
 import data_preparation
 import data_preprocessing
