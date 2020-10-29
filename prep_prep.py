@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import numpy as np
 from sklearn import preprocessing
@@ -6,17 +7,20 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 from scipy import stats
 import scipy
+import logging
 
 
 class Preparation:
 
     def __init__(
-            self, dataframe: pd.DataFrame, active_columns: list([str])
-    ) -> object:
+            self, dataframe: pd.DataFrame, active_columns: callable(str)
+    ) -> None:
         self.active_cols = active_columns
         self.df = dataframe
 
-    def set_date_index(self) -> pd.Series:
+    def set_date_index(
+            self
+    ) -> pd.DataFrame:
         """ Creates time-stamp values """
         date_series = self.df["Local Date"].astype("str") + " " + self.df["Local Time"].astype("str")
         date_and_time = (date_series.apply(lambda x:
@@ -24,12 +28,16 @@ class Preparation:
         self.df.index = date_and_time
         return self.df
 
-    def sort_by_date(self) -> pd.Series:
+    def sort_by_date(
+            self
+    ) -> pd.DataFrame:
         """ Sort dataframe by date """
         self.df = self.df.sort_index(ascending=True)
         return self.df
 
-    def drop_unused(self) -> pd.Series:
+    def drop_unused(
+            self
+    ) -> pd.DataFrame:
         """ Drop unused attributes """
         for col in self.df:
             if col not in self.active_cols:
@@ -53,17 +61,20 @@ class Preparation:
                                     col.astype("float"))
             return self.df
 
-    def time_series_fillna(self) -> pd.DataFrame:
+    def time_series_fillna(
+            self
+    ) -> pd.DataFrame:
         """ Fill nan values with the average value of the last and next valid row
             Simplified fill-nan method for time series """
         self.df = (self.df.fillna(method="ffill") + self.df.fillna(method="bfill")) / 2
         return self.df
 
+
 class Preprocessing:
 
     def __init__(
             self, dataframe: pd.DataFrame, running_mode: str = "full", window_length=180
-    ) -> object:
+    ) -> None:
         self.df = dataframe
         self.mode = running_mode
         if not (self.mode == "test" or self.mode == "full"):
@@ -73,21 +84,19 @@ class Preprocessing:
     def split_train_test(
             self, split_rate: float = 0.7
     ) -> (pd.DataFrame, pd.DataFrame):
-        """
-            Split data in train and test sets,
-            "test" mode -> returns only a short training data set (for functionality test only)
-                                                                                                """
+        """ Split data in train and test sets,
+            test" mode -> returns only a short training data set (for functionality test only) """
         if self.mode == "full":
             train_data = self.df[:ceil(len(self.df) * split_rate)]
             test_data = self.df[ceil(len(self.df) * split_rate):].reset_index(drop=True)
             return train_data, test_data
         elif self.mode == "test":
+            logging.warning("*** reduced data sets are generated due to the test running mode ***")
             train_data_for_func = self.df[:ceil(len(self.df) * 0.05)]
             test_data_for_func = self.df[ceil(len(self.df) * 0.05):ceil(len(self.df) * 0.07)].reset_index(drop=True)
-
             return train_data_for_func, test_data_for_func
 
-    def original_moving_av(
+    def original_moving_avg(
             self, prices: pd.Series, date_values: pd.Series, short_period: int = 120
             , long_period: int = 480, show: bool = False
     ) -> None:
@@ -117,10 +126,8 @@ class Preprocessing:
             self, train_prices: pd.Series
             , test_prices: pd.Series, show: bool = False
     ) -> None:
-        """
-            Plot the distribution of two attributes (train, test) together
-            Use it for comparison purpose
-                                          """
+        """ Plot the distribution of two attributes (train, test) together
+            Use it for comparison purpose """
         plt.ioff()
         plt.close(fig=2)
         now = datetime.today().strftime("%Y%m%d_%H%M%S")
@@ -153,9 +160,7 @@ class Preprocessing:
     def compare_descr(
             self, training_df: pd.DataFrame, testing_df: pd.DataFrame
     ) -> pd.DataFrame:
-        """
-            Compare the descriptive stats of training and test sets
-                                                                    """
+        """ Compare the descriptive stats of training and test sets """
         train_descr = self.descriptive_stats(training_df)
         test_descr = self.descriptive_stats(testing_df)
         train_descr.index = list(map(lambda col_name: "train " + col_name, train_descr.index))
@@ -214,7 +219,7 @@ class Preprocessing:
         """ Re-scale by day using z-score """
         if not type(data) == list:
             scaled_data = np.array(data.apply(lambda col:
-                                                  scipy.stats.zscore(col)))
+                                              scipy.stats.zscore(col)))
         else:
             scaled_data = list(map(lambda df:
                                    np.array(df.apply(lambda col:
@@ -222,9 +227,9 @@ class Preprocessing:
                                    , data))
         return scaled_data
 
-    def sliding_win_process(
+    def sliding_window_process(
             self, scaled_data
-    ):
+    ) -> (np.ndarray, np.ndarray):
         """ Restructures the data based on the Sliding Window method """
         sliding_data = np.array(list(map(lambda x:
                                          scaled_data[x:x + self.win_len].T,
@@ -236,19 +241,19 @@ class Preprocessing:
         sliding_labels = sliding_labels[1:]
         return sliding_data, sliding_labels
 
-    def sliding_win_application(
+    def sliding_window_application(
             self, scaled_data
-    ):
+    ) -> (list, list):
         """ Apply sliding window method """
         if not type(scaled_data) == list:
             data = scaled_data
-            sliding_data, sliding_labels = self.sliding_win_process(scaled_data=data)
+            sliding_data, sliding_labels = self.sliding_window_process(scaled_data=data)
             return sliding_data, sliding_labels
         else:
             sliding_data_list = []
             sliding_labels_list = []
             for partition in scaled_data:
-                sliding_data, sliding_labels = self.sliding_win_process(scaled_data=partition)
+                sliding_data, sliding_labels = self.sliding_window_process(scaled_data=partition)
                 sliding_data_list.append(sliding_data)
                 sliding_labels_list.append(sliding_labels)
             return sliding_data_list, sliding_labels_list
