@@ -1,6 +1,6 @@
 # Time Series forecasting CNN
-A time series forecasting model based on 1D CNN   
-Stock price data is used  
+-- A time series forecasting model based on 1D CNN   
+-- Stock price data is used  
 
 ## Important info
 - Reproducible results are given
@@ -42,4 +42,5 @@ Pull requests are welcome. For major changes, please open an issue first
 
 ## Future development
 - Further refinement and research  
+- Ta-Lib python package integration
 - Integration of Colab notebook to facilitate the execution (for those with limited computational recourses)   
