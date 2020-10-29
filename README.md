@@ -3,10 +3,10 @@ A time series forecasting model based on 1D CNN
 
 ## Anaconda environment set-up
 Current conda version: 4.8.3 .
-Check you version
+Check your version
 
 ```bash
-conda -V
+conda -V  # Check your version
 ```
 
 python version: 3.8.3
