@@ -24,6 +24,12 @@ conda install matplotlib=3.3.2
 conda install tqdm=4.50.2
 ```
 
+## Computational resources and execution time
+CPU: Intel Core i5-9500 @ 3.00 Ghz, 6 cores
+GPU: Nvidia GeForce RTX 2070 Super
+
+The entire execution, including the grid search, approximatelly lasts 32 hours
+
 The optimal model is designed after a grid search and a couple of refinement phases.  
 Also, the learning progress proceeds from a well-designed annealing process.  
 
