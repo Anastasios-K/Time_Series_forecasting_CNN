@@ -1,6 +1,6 @@
 # Time Series forecasting CNN
--- A time series forecasting model based on 1D CNN   
--- Stock price data is used  
+-> A time series forecasting model based on 1D CNN   
+-> Stock price data is used  
 
 ## Important info
 - Reproducible results are given
