@@ -2,7 +2,7 @@
 A time series forecasting model based on 1D CNN
 
 ## Anaconda environment set-up
-Current conda version: 4.8.3
+Current conda version: 4.8.3 .
 Check you version
 
 ```bash
