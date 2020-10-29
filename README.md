@@ -5,7 +5,7 @@ A time series forecasting model based on 1D CNN
 current conda version: 4.8.3
 check you version
 
-'''bash
+'''
 conda -V
 '''
 
