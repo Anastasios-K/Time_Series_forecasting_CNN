@@ -38,7 +38,8 @@ conda install tqdm=4.50.2
 **Execution time, considering the grid search:** 32 hours approximatelly  
 
 ## Contribution
-Pull requests are welcome. For major changes, please open an issue first
+Pull requests are more than welcome.  
+However, if you consider major changes, **PLEASE** opne an issue first.
 
 ## Future development
 - Further refinement and research  
