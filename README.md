@@ -1,5 +1,29 @@
 # Time_Series_forecasting_CNN
-A time series forecasting model based on 1D CNN.  
+A time series forecasting model based on 1D CNN
+
+# Anaconda environment set-up
+current conda version: 4.8.3
+check you version
+"""bash
+conda -V
+"""
+python version: 3.8.3
+create a conda environment, named "envname", with python version 3.8.3
+"""bash
+conda create --name envname python=3.8.3
+"""
+
+# Required packages installation
+"""bash
+conda install tensorflow-gpu=2.1.0
+conda install scicit-learn=0.23.2
+conda install scipy=1.5.2
+conda install pandas=1.1.3
+conda install numpy=1.19.2
+conda install matplotlib=3.3.2
+conda install tqdm=4.50.2
+"""
+
 The optimal model is designed after a grid search and a couple of refinement phases.  
 Also, the learning progress proceeds from a well-designed annealing process.  
 
