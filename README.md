@@ -1,6 +1,13 @@
 # Time_Series_forecasting_CNN
 A time series forecasting model based on 1D CNN  
 
+## Import info
+- Reproducible results are given
+- Grid search - multiple phases
+  - 1st -> 5 hyper-parameters
+  - 2nd -> refinement
+
+
 ## Anaconda environment set-up
 Current conda version: 4.8.3   
 **1)** Create a conda environment, named "envname", with Python version 3.8.3    
@@ -26,7 +33,7 @@ conda install tqdm=4.50.2
 **CPU:** Intel Core i5-9500 @ 3.00 Ghz, 6 cores  
 **GPU:** Nvidia GeForce RTX 2070 Super  
 
-The entire execution, including the grid search, approximatelly lasts 32 hours.  
+**Execution time, considering the grid search:** 32 hours approximatelly  
 
 The optimal model is designed after a grid search and a couple of refinement phases.  
 Also, the learning progress proceeds from a well-designed annealing process.  
