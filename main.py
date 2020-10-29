@@ -27,7 +27,7 @@ preparation.covert_to_float(comma_issue=True)
 preparation.time_series_fillna()
 
 """ Data preprocessing """
-preprocess = data_preparation.Preprocessing(dataframe=preparation.df, running_mode="test")
+preprocess = data_preparation.Preprocessing(dataframe=preparation.df, running_mode="full")
 train_df, test_df = preprocess.split_train_test()
 # preprocess.original_moving_av(prices=train_df["Close"], date_values=pd.Series(train_df.index)) # DOULEUEI
 # preprocess.distribution_comparison(train_prices=train_df["Close"], test_prices=test_df["Close"])
@@ -57,7 +57,7 @@ callbacks = {"lr_callback": tf.keras.callbacks.LearningRateScheduler(learning_st
              , "early_stop_callback": tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=20)}
 
 """ Model development """
-model_dev = model_developement.Model_Development(input_data=slide_data_all_Mm, running_mode="full")#running_mode=preprocess.mode)
+model_dev = model_developement.Model_Development(input_data=slide_data_all_Mm, running_mode=preprocess.mode)
 models = model_dev.build_all_models(initialisation=model_dev.GN_initializer())
 
 """ Training process -> Auto-Execution """
