@@ -207,7 +207,6 @@ class Model_Development:
         partitions = self.dict_partitions()
         partition_numb = self.get_partition_number()
         now = datetime.today().strftime("%Y%m%d_%H%M%S")
-        os.mkdir(f"saved_models{now}")
         numb_ind = -1
         report = pd.DataFrame()
         series_cv = list(TimeSeriesSplit(n_splits=self.params.folds).split(training_data))
@@ -218,6 +217,7 @@ class Model_Development:
                 print("Report already exists")
             else:
                 print("New report")
+                os.mkdir(f"saved_models{partition_numb[numb_ind]}_{now}")
                 for ind, model in enumerate(tqdm(partitions[part])):
                     for i in range(len(series_cv)):
                         history = model.fit(x=training_data[:len(series_cv[i][0])]
@@ -230,7 +230,8 @@ class Model_Development:
                                                                , targets[:len(series_cv[i][1])])
                                             , callbacks=callback_list)
                     report = report.append(self.reporting(ind + partition_numb[numb_ind] - 60, history.history))
-                    tf.keras.models.save_model(model=model, filepath=f"saved_models{now}/" + f"model_{ind}.h5")
+                    tf.keras.models.save_model(model=model, filepath=f"saved_models{partition_numb[numb_ind]}_{now}/"
+                                                                     + f"model_{ind + partition_numb[numb_ind] - 60}.h5")
                 report.to_csv(f"report{partition_numb[numb_ind]}_{now}.csv", index=False)
 
     def manual_grid_cv(
@@ -241,7 +242,7 @@ class Model_Development:
             partition: list(models) """
         tf.random.set_seed(123)
         now = datetime.today().strftime("%Y%m%d_%H%M%S")
-        os.mkdir(f"saved_models{now}")
+        os.mkdir(f"saved_models{partition_num}_{now}")
         report = pd.DataFrame()
         series_cv = list(TimeSeriesSplit(n_splits=self.params.folds).split(training_data))
 
@@ -257,6 +258,7 @@ class Model_Development:
                                                        , targets[:len(series_cv[i][1])])
                                     , callbacks=callback_list)
             report = report.append(self.reporting(ind + partition_num - 60, history.history))
-            tf.keras.models.save_model(model=model, filepath=f"saved_models{now}/" + f"model_{ind}.h5")
+            tf.keras.models.save_model(model=model, filepath=f"saved_models{partition_num}_{now}/"
+                                                             + f"model_{ind + partition_num - 60}.h5")
         report.to_csv(f"report{partition_num}_{now}.csv", index=False)
         # mail_sender.send_email(dataframe=report, subject=str(partition_num))
