@@ -39,7 +39,7 @@ conda install tqdm=4.50.2
 
 ## Contribution
 Pull requests are more than welcome.  
-However, if you consider major changes, **PLEASE** opne an issue first.
+However, if you consider major changes, **PLEASE** open an issue first.
 
 ## Future development
 - Further refinement and research  
