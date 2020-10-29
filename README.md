@@ -5,7 +5,7 @@ A time series forecasting model based on 1D CNN
 - Reproducible results are given
 - Grid search - multiple phases
   - 1st -> 5 hyper-parameters
-  - 2nd -> refinement stage
+  - 2nd -> refinement stages
 - Effect of different normalisation techniques
 - Effect of different initialisation methods
 
@@ -41,4 +41,4 @@ Pull requests are welcome. For major changes, please open an issue first
 
 ## Future development
 - Further refinement and research  
-- Integration of Colab notebook to facilitate execution (for those with limited computational recourses)   
+- Integration of Colab notebook to facilitate the execution (for those with limited computational recourses)   
