@@ -2,18 +2,15 @@
 A time series forecasting model based on 1D CNN
 
 ## Anaconda environment set-up
-Current conda version: 4.8.3 .
-Check your version
+Current conda version: 4.8.3
+1) a conda environment, named "envname", with Python version 3.8.3
+2) activate the environment
 
 ```bash
-conda -V  # Check your version
-```
-
-python version: 3.8.3
-create a conda environment, named "envname", with python version 3.8.3
-
-```bash
+# 1)
 conda create --name envname python=3.8.3
+# 2)
+conda activate envname
 ```
 
 # Required packages installation
