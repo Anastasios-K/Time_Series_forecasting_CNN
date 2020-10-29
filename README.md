@@ -3,8 +3,8 @@ A time series forecasting model based on 1D CNN
 
 ## Anaconda environment set-up
 Current conda version: 4.8.3
-1) Create a conda environment, named "envname", with Python version 3.8.3
-2) Activate the environment
+**1)** Create a conda environment, named "envname", with Python version 3.8.3
+**2)** Activate the environment
 
 ```bash
 # 1)
@@ -12,7 +12,6 @@ conda create --name envname python=3.8.3
 # 2)
 conda activate envname
 ```
-
 ## Required packages installation
 ```bash
 conda install tensorflow-gpu=2.1.0
@@ -23,10 +22,9 @@ conda install numpy=1.19.2
 conda install matplotlib=3.3.2
 conda install tqdm=4.50.2
 ```
-
 ## Computational resources and execution time
-CPU: Intel Core i5-9500 @ 3.00 Ghz, 6 cores  
-GPU: Nvidia GeForce RTX 2070 Super  
+**CPU:** Intel Core i5-9500 @ 3.00 Ghz, 6 cores  
+**GPU:** Nvidia GeForce RTX 2070 Super  
 
 The entire execution, including the grid search, approximatelly lasts 32 hours.  
 
