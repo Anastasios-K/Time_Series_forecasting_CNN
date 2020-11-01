@@ -12,7 +12,7 @@
 
 ## Anaconda environment set-up
 Current conda version: 4.8.3   
-**1)** Create a conda environment, named "envname", with Python version 3.8.3    
+**1)** Create a conda environment, named "envname", with Python version 3.7.9       
 **2)** Activate the environment  
 
 ```bash
@@ -24,7 +24,7 @@ conda activate envname
 ## Required packages installation
 ```bash
 conda install tensorflow-gpu=2.1.0
-conda install scicit-learn=0.23.2
+conda install scikit-learn=0.23.2
 conda install scipy=1.5.2
 conda install pandas=1.1.3
 conda install numpy=1.19.2
