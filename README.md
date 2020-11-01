@@ -17,7 +17,7 @@ Current conda version: 4.8.3
 
 ```bash
 # 1)
-conda create --name envname python=3.8.3
+conda create --name envname python=3.7.9
 # 2)
 conda activate envname
 ```
