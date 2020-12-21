@@ -30,6 +30,7 @@ conda install pandas=1.1.3
 conda install numpy=1.19.2
 conda install matplotlib=3.3.2
 conda install tqdm=4.50.2
+conda install openpyxl=3.0.5
 ```
 ## Computational resources and execution time
 **CPU:** Intel Core i5-9500 @ 3.00 Ghz, 6 cores  
