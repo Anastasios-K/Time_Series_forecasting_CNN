@@ -19,7 +19,7 @@ Current conda version: 4.8.3
 # 1)
 conda create --name myenv python=3.7.9
 # 2)
-conda activate envname
+conda activate myenv
 ```
 ## Required packages installation
 ```bash
