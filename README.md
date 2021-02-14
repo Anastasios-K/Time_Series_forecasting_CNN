@@ -24,6 +24,7 @@ conda activate myenv
 ## Required packages installation
 ```bash
 conda install tensorflow-gpu=2.1.0
+conda install keras=2.3.1-0
 conda install scikit-learn=0.23.2
 conda install scipy=1.5.2
 conda install pandas=1.1.3
