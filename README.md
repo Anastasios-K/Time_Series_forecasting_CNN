@@ -1,4 +1,4 @@
-# Stock price forecasting with 1-D CNN and Exponential learning rate with restart points  
+## Stock price forecasting with 1-D CNN and Exponential learning rate with restart points  
 
 ## Anaconda environment set-up
 Current conda version: 4.8.3   
