@@ -1,37 +1,24 @@
-# Time Series forecasting CNN
--> A time series forecasting model based on 1D CNN   
--> Stock price data is used  
-
-## Important info
-- Reproducible results are given
-- Grid search - multiple phases
-  - 1st -> 5 hyper-parameters
-  - 2nd -> refinement stages
-- Effect of different normalisation techniques
-- Effect of different initialisation methods
+# Stock price forecasting with 1-D CNN and Exponential learning rate with restart points  
 
 ## Anaconda environment set-up
 Current conda version: 4.8.3   
-**1)** Create a conda environment, named "envname", with Python version 3.7.9       
-**2)** Activate the environment  
 
 ```bash
-# 1)
 conda create --name myenv python=3.7.9
-# 2)
 conda activate myenv
 ```
 ## Required packages installation
 ```bash
-conda install tensorflow-gpu=2.1.0
-conda install keras=2.3.1-0
-conda install scikit-learn=0.23.2
-conda install scipy=1.5.2
-conda install pandas=1.1.3
-conda install numpy=1.19.2
-conda install matplotlib=3.3.2
-conda install tqdm=4.50.2
-conda install openpyxl=3.0.5
+conda install 
+    tensorflow-gpu=2.1.0
+    keras=2.3.1-0
+    scikit-learn=0.23.2
+    scipy=1.5.2
+    pandas=1.1.3
+    numpy=1.19.2
+    matplotlib=3.3.2
+    tqdm=4.50.2
+    openpyxl=3.0.5
 ```
 ## Computational resources and execution time
 **CPU:** Intel Core i5-9500 @ 3.00 Ghz, 6 cores  
