@@ -1,100 +1,72 @@
-""" Imported libraries """
-import os
-import tensorflow_environments
-tensorflow_environments.set_environments()  # set tensorflow envs before importing the library
 import pandas as pd
+import os
 import tensorflow as tf
+from tensorflow.keras.models import load_model
+from tensorflow.keras.losses import MeanAbsoluteError, MeanSquaredError
 
-""" Imported files """
 import data_preparation
-import lr_strategy
+import data_exploration
+import learning_rate_strategy
 import model_developement
 
 df = pd.read_csv("GSK per min.csv")
 
-""" Standardaise randoness """
-standardisation = model_developement.Standardise_Randomness()
-standardisation.set_seeds()
-standardisation.set_threads()
+""" Data Preparation """
+prepare = data_preparation.Preparation(data=df)
+prepare.set_timestamps_as_index()
+prepare.sort_by_timestamp()
+prepare.drop_unused()
+prepare.transform_to_float()
+prepare.time_series_fillna()
+prepare.plot_daily_prices(show=False)
+prepare.plot_prices_and_projection(show=False)
 
-""" Data cleaning and preparation """
-preparation = data_preparation.Preparation(dataframe=df
-                                           , active_columns=["Close", "Open", "High", "Low", "Volume"])
-preparation.set_date_index()
-preparation.sort_by_date()
-preparation.drop_unused()
-preparation.covert_to_float(comma_issue=True)
-preparation.time_series_fillna()
+""" Data Exploration """
+explore = data_exploration.Exploration(data=prepare.data, running_mode="partial")
+train_set, test_set = explore.split_train_test()
+explore.distribution_comparison(train_set["Close"], test_set["Close"], show=False)
+explore.plot_series_but_ignore_date(train_set["Close"], test_set["Close"], show=False)
+train_report = explore.custom_stat_report(data=train_set, name="Train")
+test_report = explore.custom_stat_report(data=train_set, name="Test")
+explore.box_plots(data=train_set, show=False)
+scaled_train_data = explore.scaler_min_max(data=train_set)
+scaled_test_data = explore.scaler_min_max(data=test_set)
+sliding_window_train_data, sliding_window_train_target = explore.turn_dfs_into_arrays(given_data=scaled_train_data)
+sliding_window_test_data, sliding_window_test_target = explore.turn_dfs_into_arrays(given_data=scaled_test_data)
 
-""" Data preprocessing """
-preprocess = data_preparation.Preprocessing(dataframe=preparation.df, running_mode="full")
-train_df, test_df = preprocess.split_train_test()
-# preprocess.original_moving_av(prices=train_df["Close"], date_values=pd.Series(train_df.index)) # DOULEUEI
-# preprocess.distribution_comparison(train_prices=train_df["Close"], test_prices=test_df["Close"])
-# stats = preprocess.compare_descr(training_df=train_df, testing_df=test_df)
-
-""" Whole sequence """
-# Min_Max
-slide_data_all_Mm, slide_label_all_Mm = preprocess.sliding_window_application(scaled_data
-                                                                              =preprocess.scaler_min_max(train_df))
-# z-score
-slide_data_all_Zsc, slide_label_all_Zsc = preprocess.sliding_window_application(scaled_data
-                                                                                =preprocess.scaler_z_score(train_df))
-
-# """ Daily analysis """
-# daily_train = preprocess.keep_whole_days(train_df)
-# # Min_Max
-# slide_data_daily_Mm, slide_label_daily_Mm = preprocess.sliding_win_application(scaled_data
-#                                                                              =preprocess.scaler_min_max(daily_train))
-# # z-score
-# slide_data_daily_Z, slide_label_daily_Z = preprocess.sliding_win_application(scaled_data
-#                                                                              =preprocess.scaler_z_score(daily_train))
-
-""" Learning strategy & Callbacks """
-learning_strategy = lr_strategy.Learning_rate_strategy()
-# learning_strategy.lr_visual(show=False)
-callbacks = {"lr_callback": tf.keras.callbacks.LearningRateScheduler(learning_strategy.lr_scheme, verbose=0)
-             , "early_stop_callback": tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=20)}
+""" Learning rate strategy """
+learning_rate = learning_rate_strategy.Learning_Rate_Strategy()
+learning_rate.plot_lr_strategy(show=False)
+learning_rate.create_lr_log(strategy_index=1, save=False)
+learning_rate_dict = learning_rate_strategy.create_lr_dict()
 
 """ Model development """
-model_dev = model_developement.Model_Development(input_data=slide_data_all_Mm, running_mode=preprocess.mode)
-models = model_dev.build_all_models(initialisation=model_dev.GN_initializer())
+for key in learning_rate_dict:
+    model_dev = model_developement.Model_Development(input_data=sliding_window_train_data, running_mode="partial",
+                                                     folder_customisation=key)
+    models_dict = model_dev.create_models_dict()
+    model_dev.train_models(given_models=models_dict, training_targets=sliding_window_train_target,
+                           lr_callback=learning_rate_dict[key])
 
-""" Training process -> Auto-Execution """
-model_dev.auto_grid_cv(training_data=slide_data_all_Mm, targets=slide_label_all_Mm
-                       , callback_list=list(callbacks.values()))
+""" Best Model Prediction """
+model_selection = model_developement.Model_Selection()
+best_model_char = model_selection.get_best_model_characteristics()
+best_model = load_model(os.path.join(os.getcwd(),
+                                     "saved_models" + best_model_char["best_lr_strategy"],
+                                     "model_" + "1" + ".h5"))
+prediction = best_model.predict([sliding_window_test_data])
 
-""" Training process -> Manual-Execution """
-""" Comment out to run a specific partition only 
-    Select and Set a valid partition from partitions dictionary before execution """
-# partitions = model_dev.dict_partitions()
+""" Final evaluation """
+mse = MeanSquaredError()
+mae = MeanAbsoluteError()
 
-# model_dev.manual_grid_cv(partition=partitions["models60"], partition_num=60, training_data=slide_data_all_Mm
-#                          , targets=slide_label_all_Mm, callback_list=list(callbacks.values()))
-# model_dev.manual_grid_cv(partition=partitions["models120"], partition_num=120, training_data=slide_data_all_Mm
-#                          , targets=slide_label_all_Mm, callback_list=list(callbacks.values()))
-# model_dev.manual_grid_cv(partition=partitions["models180"], partition_num=180, training_data=slide_data_all_Mm
-#                          , targets=slide_label_all_Mm, callback_list=list(callbacks.values()))
-# model_dev.manual_grid_cv(partition=partitions["models240"], partition_num=240, training_data=slide_data_all_Mm
-#                          , targets=slide_label_all_Mm, callback_list=list(callbacks.values()))
-# model_dev.manual_grid_cv(partition=partitions["models300"], partition_num=300, training_data=slide_data_all_Mm
-#                          , targets=slide_label_all_Mm, callback_list=list(callbacks.values()))
-# model_dev.manual_grid_cv(partition=partitions["models360"], partition_num=360, training_data=slide_data_all_Mm
-#                          , targets=slide_label_all_Mm, callback_list=list(callbacks.values()))
-# model_dev.manual_grid_cv(partition=partitions["models420"], partition_num=420, training_data=slide_data_all_Mm
-#                          , targets=slide_label_all_Mm, callback_list=list(callbacks.values()))
-# model_dev.manual_grid_cv(partition=partitions["models480"], partition_num=480, training_data=slide_data_all_Mm
-#                          , targets=slide_label_all_Mm, callback_list=list(callbacks.values()))
-# model_dev.manual_grid_cv(partition=partitions["models540"], partition_num=540, training_data=slide_data_all_Mm
-#                          , targets=slide_label_all_Mm, callback_list=list(callbacks.values()))
+rmse_eval = tf.sqrt(mse(sliding_window_test_target, prediction)).numpy()
+mse_eval = mse(sliding_window_test_target, prediction).numpy()
+mae_eval = mae(sliding_window_test_target, prediction).numpy()
 
-
-# refinement = model_refinement.Refinement(models)
-# f_report = refinement.final_report()
-# best_mod, mod_index = refinement.choose_best_model()
-# best_mod.summary()
-# best_params = refinement.best_model_config()
-# best_weights = models[150].get_weights()
+print(f"RMSE = {rmse_eval}",
+      f"MSE = {mse_eval}",
+      f"MAE = {mae_eval}")
 
 
 
