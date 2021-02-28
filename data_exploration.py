@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 from scipy import stats
 from datetime import datetime
-import dateutil
 import matplotlib.pyplot as plt
 from math import ceil, floor
 import logging
