@@ -2,10 +2,9 @@ import unittest
 import pandas as pd
 import numpy as np
 from datetime import datetime
-import random
-import tensorflow as tf
 
 import data_preparation
+
 
 class Utility_Functions(unittest.TestCase):
 
@@ -27,6 +26,7 @@ class Utility_Functions(unittest.TestCase):
         with self.assertRaises(ValueError):
             test_object.control_type(expected_type=pd.Series, given_arguments=[test_series_type,
                                                                                test_array_type])
+
 
 class Test_Preparation(unittest.TestCase):
 
