@@ -29,12 +29,12 @@ class Utility_Functions:
 
 class Preparation(Utility_Functions):
     """
-        This class is responsible for the data preparation phase and includes the following:
-            1. Assurance of data attribute existence.
-            2. Timestamp generation and setting.
-            4. Assurance of data type requirements.
-            5. Missing data handling.
-            6. Data Visualisation.
+    This class is responsible for the data preparation phase and includes the following:
+        1. Assurance of data attribute existence.
+        2. Timestamp generation and setting.
+        4. Assurance of data type requirements.
+        5. Missing data handling.
+        6. Data Visualisation.
     """
 
     def __init__(self, data: pd.DataFrame, attributes: List = ["Close", "Open", "High", "Low", "Volume"]):
