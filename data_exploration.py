@@ -13,6 +13,15 @@ import parameters
 
 
 class Exploration(data_preparation.Utility_Functions):
+    """
+    This class is responsible for the data exploration phase and includes the following:
+        1. Train - Test split
+        2. Histograms (train and test)
+        3. Descriptive statistics and Normality test
+        4. Outlier detection
+        5. Data normalisation
+        6. Sliding Window application
+    """
 
     def __init__(self, data: pd.DataFrame, running_mode: str = "full") -> None:
         self.input_data = data
@@ -20,39 +29,38 @@ class Exploration(data_preparation.Utility_Functions):
         self.window_length = parameters.General_Params().slid_win_length
         self.data = self.input_data.copy()
 
-        if self.mode not in ["full", "partial"]:
-            raise ValueError("Running mode is NOT valid, should be \"full\" or \"partial\"")
-        elif self.mode == "partial":
-            logging.warning("*** PARTIAL MODE IS ACTIVE - REDUCED DATA SETS ARE USED ***")
+        if self.mode != "full":
+            logging.warning("*** The FULL run is disabled: The data size and number of models is reduced ***")
+            logging.warning("*** To be used only for functionality test ***")
 
     def split_train_test(self, split_rate: float = 0.7) -> Tuple[pd.DataFrame, pd.DataFrame]:
         """
         Split data into training set (70%) and test set (30%).
 
-        When the partial mode is activated:
+        When the running mode is NOT full:
         - The training set size is reduced to 5%.
         - The test set size is reduced to 2%.
-        *** USED ONLY TO ACCELERATE FUNCTIONALITY TEST ***
         """
         if self.mode == "full":
             train_data = self.data[:ceil(len(self.data) * split_rate)]
             test_data = self.data[ceil(len(self.data) * split_rate):]
-        elif self.mode == "partial":
+            return train_data, test_data
+        else:
             train_data = self.data[:floor(len(self.data) * 0.05)]
             test_data = self.data[floor(len(self.data) * 0.05):floor(len(self.data) * 0.07)]
-        return train_data, test_data
+            return train_data, test_data
 
     @staticmethod
-    def color_list() -> List:
+    def color_list() -> list:
         colors = ["black", "blue", "red", "green", "tan", "aqua",
                   "grey", "gold", "lime", "orchid", "orange", "brown"]
         return colors
 
-    def distribution_comparison(self, *data: pd.Series, show: bool = False, save: bool = False) -> None:
+    def distribution_comparison(self, *data: pd.Series, show: bool = True, save: bool = True) -> None:
         """
         Plot the probability distribution of the given data.
         Require at least on pd.Series for data.
-        Can plot as many sereis as the color number in the color_list function.
+        Can plot as many series as the color number in the color_list function.
         Optionally - Save the plot in a png file.
         """
         self.control_quantity(limit=len(self.color_list()), given_arguments=data)
@@ -72,11 +80,11 @@ class Exploration(data_preparation.Utility_Functions):
         if show:
             fig3.show()
 
-    def plot_series_but_ignore_date(self, *data: pd.Series, show: bool = False, save: bool = False) -> None:
+    def plot_series_but_ignore_date(self, *data: pd.Series, show: bool = True, save: bool = True) -> None:
         """
         Plot stock times-series without considering the price discontinuity because of the weekend days.
         Require at least on pd.Series for data.
-        Can plot as many sereis as the color number in the color_list function.
+        Can plot as many series as the color number in the color_list function.
         Optionally - Save the plot in a png file.
         """
         self.control_quantity(limit=len(self.color_list()), given_arguments=data)
@@ -107,7 +115,7 @@ class Exploration(data_preparation.Utility_Functions):
         description.insert(loc=3, column="p_value", value=jarque_bera_test.iloc[1, 0:])
         return description
 
-    def custom_stat_report(self, data: pd.DataFrame, name: str, save: bool = False) -> pd.DataFrame:
+    def custom_stat_report(self, data: pd.DataFrame, name: str, save: bool = True) -> pd.DataFrame:
         """
         Customise the index of the stat report.
         The name is added in the beginning of the index values.
@@ -121,7 +129,7 @@ class Exploration(data_preparation.Utility_Functions):
         return description
 
     @staticmethod
-    def box_plots(data: pd.DataFrame, show: bool = False, save: bool = False) -> None:
+    def box_plots(data: pd.DataFrame, show: bool = True, save: bool = True) -> None:
         """
         Design Box-Plots for outlier detection and data distribution representation.
         The fence constant is equal to 1.5.
@@ -164,17 +172,16 @@ class Exploration(data_preparation.Utility_Functions):
 
     def apply_sliding_window(self, scaled_data: np.ndarray, target_attribute: str = "Close") -> Tuple[list, list]:
         """
-        Breaks the data in segments based on the sliding window method.
+        Break data into consecutive segments.
         Returns:
-            - the segments of data sequence.
-            - the target prices depending on the data segments.
-        Default window length: 90 -> configuration is available in parameters.py (general parameters).
-        The transition np.ndarray -> pd.Dataframe -> np.ndarray provides better data manipulation
-        and function generalisation.
-        The default targets arise from the "Close" attribute, but configuration is available.
+            - list of segments.
+            - list of target prices.
+        Default window length = 90 (configuration is available in parameters.py (general parameters)).
+        The transition np.ndarray -> pd.Dataframe provides better data manipulation.
+        The default target prices arise from the "Close" attribute (modify by changing target_attribute).
 
-        The last data segment is removed (used only for the targets).
-        The first target is removed, as it is included in the initial data segment.
+        The last data segment is removed (used only for the last target price).
+        The first target is removed (it is included in the initial data segment).
         """
         self.control_quantity(limit=self.window_length + 2, given_arguments=[scaled_data])
         self.control_type(expected_type=np.ndarray, given_arguments=[scaled_data])
@@ -182,16 +189,16 @@ class Exploration(data_preparation.Utility_Functions):
         sliding_data = list(map(lambda index:
                                 scaled_data.iloc[index:index + self.window_length, 0:],
                                 range(len(scaled_data) - (self.window_length - 1))))
-        sliding_targ = list(map(lambda df:
-                                float(df[target_attribute].iloc[-1:]),
-                                sliding_data))
+        sliding_targets = list(map(lambda df:
+                                   float(df[target_attribute].iloc[-1:]),
+                                   sliding_data))
         sliding_data = sliding_data[:-1]
-        sliding_targ = sliding_targ[1:]
-        return sliding_data, sliding_targ
+        sliding_targets = sliding_targets[1:]
+        return sliding_data, sliding_targets
 
     def turn_dfs_into_arrays(self, given_data: np.ndarray,
-                             given_targ_attr: str = "Close") -> Tuple[np.ndarray, np.ndarray]:
-        sw_data, sw_targ = self.apply_sliding_window(scaled_data=given_data, target_attribute=given_targ_attr)
+                             given_target_attribute: str = "Close") -> Tuple[np.ndarray, np.ndarray]:
+        sw_data, sw_targ = self.apply_sliding_window(scaled_data=given_data, target_attribute=given_target_attribute)
         sw_data = np.array(list(map(lambda df: np.array(df), sw_data)))
         sw_targ = np.array(sw_targ)
         return sw_data, sw_targ
