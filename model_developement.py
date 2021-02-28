@@ -191,10 +191,9 @@ class Model_Development(parameters.Hyper_Params, parameters.General_Params,
         parameters.General_Params.__init__(self)
         Training_Process_Functionality.__init__(self, folder_customisation=folder_customisation)
 
-        if self.mode not in ["full", "partial"]:
-            raise ValueError("Running mode is NOT valid, should be \"full\" or \"partial\"")
-        elif self.mode == "partial":
-            logging.warning("*** PARTIAL MODE IS ACTIVE - REDUCED DATA SETS ARE GENERATED ***")
+        if self.mode != "full":
+            logging.warning("*** The FULL run is disabled: The data size and number of models is reduced ***")
+            logging.warning("*** To be used only for functionality test ***")
 
     @staticmethod
     def generate_all_combinations() -> List[tuple]:
