@@ -1,15 +1,14 @@
+# import sys
 import pandas as pd
 import os
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 from tensorflow.keras.losses import MeanAbsoluteError, MeanSquaredError
+# sys.path.append(os.path.join(os.getcwd(), "pipeline"))
 
-import data_preparation
-import data_exploration
-import learning_rate_strategy
-import model_developement
+from pipeline import data_preparation, data_exploration, learning_rate_strategy, model_developement
 
-df = pd.read_csv("GSK per min.csv")
+df = pd.read_csv(os.path.join(os.getcwd(), "data", "GSK per min.csv"))
 
 """ Data Preparation """
 prepare = data_preparation.Preparation(data=df)
@@ -18,13 +17,13 @@ prepare.sort_by_timestamp()
 prepare.drop_unused()
 prepare.transform_to_float()
 prepare.time_series_fillna()
-prepare.plot_daily_prices(show=False)
-prepare.plot_prices_and_projection(show=False)
+prepare.plot_daily_prices(show=True)
+prepare.plot_prices_and_projection(show=True)
 
 """ Data Exploration """
 explore = data_exploration.Exploration(data=prepare.data, running_mode="partial")
 train_set, test_set = explore.split_train_test()
-explore.distribution_comparison(train_set["Close"], test_set["Close"], show=False)
+explore.distribution_comparison(train_set["Close"], test_set["Close"], show=True)
 explore.plot_series_but_ignore_date(train_set["Close"], test_set["Close"], show=False)
 train_report = explore.custom_stat_report(data=train_set, name="Train")
 test_report = explore.custom_stat_report(data=train_set, name="Test")
@@ -67,6 +66,4 @@ mae_eval = mae(sliding_window_test_target, prediction).numpy()
 print(f"RMSE = {rmse_eval}",
       f"MSE = {mse_eval}",
       f"MAE = {mae_eval}")
-
-
 

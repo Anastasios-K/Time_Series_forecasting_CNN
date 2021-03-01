@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 
-import data_preparation
+from pipeline import data_preparation
 
 
 class Utility_Functions(unittest.TestCase):

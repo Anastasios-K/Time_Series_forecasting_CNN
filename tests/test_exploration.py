@@ -1,9 +1,10 @@
 import unittest
 import numpy as np
 import pandas as pd
+import os
+print(os.getcwd())
 
-import data_exploration
-import parameters
+from pipeline import data_exploration, parameters
 
 
 class Test_Exploration(unittest.TestCase):

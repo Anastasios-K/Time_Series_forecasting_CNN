@@ -4,9 +4,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow as tf
 import numpy as np
 
-import learning_rate_strategy
-import parameters
-
+from pipeline import learning_rate_strategy, parameters
 
 class Test_Lr_Strategy_Learning_Rate_Strategy(unittest.TestCase):
 
