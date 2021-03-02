@@ -6,6 +6,8 @@ import shutil
 import numpy as np
 import random
 import tensorflow as tf
+import sys
+sys.path.append("..")
 
 from core import model_developement, parameters
 

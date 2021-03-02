@@ -4,6 +4,8 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import unittest
 import tensorflow as tf
 import numpy as np
+import sys
+sys.path.append("..")
 
 from core import learning_rate_strategy, parameters
 

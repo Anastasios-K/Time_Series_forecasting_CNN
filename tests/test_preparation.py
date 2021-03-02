@@ -2,6 +2,8 @@ import unittest
 import pandas as pd
 import numpy as np
 from datetime import datetime
+import sys
+sys.path.append("..")
 
 from core import data_preparation
 

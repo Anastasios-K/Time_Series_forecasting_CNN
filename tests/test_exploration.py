@@ -1,6 +1,8 @@
 import unittest
 import numpy as np
 import pandas as pd
+import sys
+sys.path.append("..")
 
 from core import data_exploration, parameters
 
@@ -52,7 +54,7 @@ class Test_Exploration(unittest.TestCase):
     def test_custom_stat_report_for_customised_index(self):
         mock_df = pd.DataFrame(data=np.random.rand(10, 2), columns=["attr1", "attr2"])
         mock_object = data_exploration.Exploration(data=mock_df)
-        expected = "the given name attr1"
+        expected = "given_name attr1"
         outcome = mock_object.custom_stat_report(data=mock_df, name="given_name")
         self.assertEqual(outcome.index[0], expected)
 
