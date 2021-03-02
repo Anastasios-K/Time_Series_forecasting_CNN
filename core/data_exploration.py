@@ -7,11 +7,8 @@ import matplotlib.pyplot as plt
 from math import ceil, floor
 import logging
 from sklearn import preprocessing
-import os
-print(os.getcwd())
 
-
-from pipeline import data_preparation, parameters
+from core import data_preparation, parameters
 
 
 class Exploration(data_preparation.Utility_Functions):
@@ -127,7 +124,7 @@ class Exploration(data_preparation.Utility_Functions):
         description = self.descriptive_stats_report(given_data=data)
         description.index = list(map(lambda index_val: name + " " + index_val, description.index))
         if save:
-            description.to_excel(f"test_stats{now}.xlsx")
+            description.to_excel(f"descriptive_stats_{name}_{now}.xlsx")
         return description
 
     @staticmethod

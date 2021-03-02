@@ -5,7 +5,7 @@ from datetime import datetime
 from math import floor
 from tensorflow.keras.callbacks import LearningRateScheduler
 
-from pipeline import parameters
+from core import parameters
 
 
 class Learning_Rate_Strategy:

@@ -1,23 +1,13 @@
-import unittest
 import os
-
-
-
-os.environ['TF_DETERMINISTIC_OPS'] = "1"  # any bias, due to tf.nn.bias_add(), operates deterministically on GPU
-os.environ['TF_CUDNN_DETERMINISTIC'] = "1"  # forces the selection of deterministic cuDNN convolution
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"  # info and warning messages are not printed
 
+import unittest
 import shutil
 import numpy as np
 import random
 import tensorflow as tf
 
-from pipeline import model_developement, parameters
-
-
-
-os.getcwd()
-
+from core import model_developement, parameters
 
 class Test_Training_Process_Functionality(unittest.TestCase):
 

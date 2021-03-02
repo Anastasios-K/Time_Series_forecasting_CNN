@@ -3,7 +3,7 @@ import os
 
 os.environ['TF_DETERMINISTIC_OPS'] = "1"  # any bias, due to tf.nn.bias_add(), operates deterministically on GPU
 os.environ['TF_CUDNN_DETERMINISTIC'] = "1"  # forces the selection of deterministic cuDNN convolution
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = "2"  # info and warning messages are not printed
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"  # info and warning messages are not printed
 
 import tensorflow as tf
 from tensorflow.keras import layers, models
@@ -21,7 +21,7 @@ from tqdm import tqdm
 import logging
 import shutil
 
-from pipeline import parameters, data_preparation
+from core import parameters, data_preparation
 
 
 class Training_Process_Functionality:

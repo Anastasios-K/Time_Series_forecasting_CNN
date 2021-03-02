@@ -1,0 +1,78 @@
+Epoch = 0 -->  first epoch.   LR = 0.00100000
+Epoch = 1 --> reduction phase.   LR = 0.00098000
+reduction step = 1
+Epoch = 2 --> reduction phase.   LR = 0.00096040
+reduction step = 2
+Epoch = 3 --> reduction phase.   LR = 0.00094119
+reduction step = 3
+Epoch = 4 --> reduction phase.   LR = 0.00092237
+reduction step = 4
+Epoch = 5 --> reduction phase.   LR = 0.00090392
+reduction step = 5
+Epoch = 6 --> reduction phase.   LR = 0.00088584
+reduction step = 6
+Epoch = 7 --> reduction phase.   LR = 0.00086813
+reduction step = 7
+Epoch = 8 --> reduction phase.   LR = 0.00085076
+reduction step = 8
+Epoch = 9 --> reduction phase.   LR = 0.00083375
+reduction step = 9
+Epoch = 10 --> reduction phase.   LR = 0.00081707
+reduction step = 10
+Epoch = 11 --> reduction phase.   LR = 0.00080073
+reduction step = 11
+Epoch = 12 --> reduction phase.   LR = 0.00078472
+reduction step = 12
+Epoch = 13 --> reduction phase.   LR = 0.00076902
+reduction step = 13
+Epoch = 14 --> reduction phase.   LR = 0.00075364
+reduction step = 14
+Epoch = 15 --> reduction phase.   LR = 0.00073857
+reduction step = 15
+Epoch = 16 --> reduction phase.   LR = 0.00072380
+reduction step = 16
+Epoch = 17 --> reduction phase.   LR = 0.00070932
+reduction step = 17
+Epoch = 18 --> reduction phase.   LR = 0.00069514
+reduction step = 18
+Epoch = 19 --> reduction phase.   LR = 0.00068123
+reduction step = 19
+Epoch = 20 --> reset phase.   LR = 0.00098000
+Epoch = 21 --> reduction phase.   LR = 0.00096040
+reduction step = 1
+Epoch = 22 --> reduction phase.   LR = 0.00094119
+reduction step = 2
+Epoch = 23 --> reduction phase.   LR = 0.00092237
+reduction step = 3
+Epoch = 24 --> reduction phase.   LR = 0.00090392
+reduction step = 4
+Epoch = 25 --> reduction phase.   LR = 0.00088584
+reduction step = 5
+Epoch = 26 --> reduction phase.   LR = 0.00086813
+reduction step = 6
+Epoch = 27 --> reduction phase.   LR = 0.00085076
+reduction step = 7
+Epoch = 28 --> reduction phase.   LR = 0.00083375
+reduction step = 8
+Epoch = 29 --> reduction phase.   LR = 0.00081707
+reduction step = 9
+Epoch = 30 --> reduction phase.   LR = 0.00080073
+reduction step = 10
+Epoch = 31 --> reduction phase.   LR = 0.00078472
+reduction step = 11
+Epoch = 32 --> reduction phase.   LR = 0.00076902
+reduction step = 12
+Epoch = 33 --> reduction phase.   LR = 0.00075364
+reduction step = 13
+Epoch = 34 --> reduction phase.   LR = 0.00073857
+reduction step = 14
+Epoch = 35 --> reduction phase.   LR = 0.00072380
+reduction step = 15
+Epoch = 36 --> reduction phase.   LR = 0.00070932
+reduction step = 16
+Epoch = 37 --> reduction phase.   LR = 0.00069514
+reduction step = 17
+Epoch = 38 --> reduction phase.   LR = 0.00068123
+reduction step = 18
+Epoch = 39 --> reduction phase.   LR = 0.00066761
+reduction step = 19
