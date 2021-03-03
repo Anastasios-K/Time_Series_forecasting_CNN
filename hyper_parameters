@@ -1,0 +1,5 @@
+filters_convolution_layer_1   : [64, 128, 192, 256]
+filters_convolution_layer_2   : [64, 128, 192, 256]
+third_convolution_layer_added : [False, True]
+filters_convolution_layer_3   : [64, 128, 192, 256]
+neurons_dense_layer_1         : [64, 128, 192, 256]

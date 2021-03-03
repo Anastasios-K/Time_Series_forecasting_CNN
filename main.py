@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+os.listdir()
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"  # info and warning messages are not printed
 import tensorflow as tf
 from tensorflow.keras.models import load_model
@@ -10,7 +11,7 @@ from core import data_preparation, data_exploration, learning_rate_strategy, mod
 df = pd.read_csv(os.path.join(os.getcwd(), "data", "GSK per min.csv"))
 
 """ Data Preparation """
-prepare = data_preparation.Preparation(data=df)
+prepare = data_preparation.Preparation(data=df, )
 prepare.set_timestamps_as_index()
 prepare.sort_by_timestamp()
 prepare.drop_unused()
@@ -20,7 +21,7 @@ prepare.plot_daily_prices(show=True)
 prepare.plot_prices_and_projection(show=True)
 
 """ Data Exploration """
-explore = data_exploration.Exploration(data=prepare.data)
+explore = data_exploration.Exploration(data=prepare.data, running_mode="asdf")
 train_set, test_set = explore.split_train_test()
 explore.distribution_comparison(train_set["Close"], test_set["Close"], show=True)
 explore.plot_series_but_ignore_date(train_set["Close"], test_set["Close"], show=True)
