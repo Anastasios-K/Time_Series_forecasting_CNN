@@ -197,9 +197,10 @@ class Model_Development(parameters.Hyper_Params, parameters.General_Params,
     @staticmethod
     def generate_all_combinations() -> List[tuple]:
         """
-        Calculate all the possible combinations based on the given hyper parameters.
-        Unspecified number of parameters can be processed.
-        The given params are extracted from the parameters\\Hyper_Params.
+        Calculate all possible combinations.
+        The combinations depend on the given hyper params (parameters_hyper.yaml).
+        Unspecified number of hyper params can be processed.
+        The given params are extracted by parameters.py through the yaml file parameters_hyper.
         """
         combinations = list(itertools.product(*list(parameters.Hyper_Params().__dict__.values())))
         return combinations
@@ -207,7 +208,7 @@ class Model_Development(parameters.Hyper_Params, parameters.General_Params,
     def turn_combinations_to_dict(self) -> List[dict]:
         """
         Create a dictionary of all the available combinations.
-        Integrate the keys of the parameters.py with each available combination.
+        The keys of the parameters.py are integrated with each available combination.
         """
         dict_keys = list(parameters.Hyper_Params().__dict__.keys())
         prep_empty_dict = list(map(lambda combo: {}, self.generate_all_combinations()))
@@ -241,7 +242,7 @@ class Model_Development(parameters.Hyper_Params, parameters.General_Params,
 
     def model_builder(self, filter_size: int = 5, seed_val: int = 123, **kwargs) -> tf.keras.Sequential:
         """
-        Build and compile a 1D-CNN based on the given parameters.
+        Build and compile a 1D-CNN depending on the given hyper params (parameters_hyper.yaml).
         Kwargs require a dict like below.
             {
                 "conv1_length": int,

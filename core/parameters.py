@@ -3,11 +3,12 @@ import os
 import numpy as np
 from pathlib import Path
 
-params_path = os.path.join(Path(__file__).parent.parent, "parameters")
-hyper_params_path = os.path.join(Path(__file__).parent.parent, "hyper_parameters")
+params_path = os.path.join(Path(__file__).parent.parent, "parameters_general.yaml")
+hyper_params_path = os.path.join(Path(__file__).parent.parent, "parameters_hyper.yaml")
 
 
 class General_Params:
+    """ Read the paramameters_general.yaml and specify the general parameters of the entire project. """
 
     def __init__(self):
         with open(params_path) as file:
@@ -26,6 +27,7 @@ class General_Params:
 
 
 class Hyper_Params:
+    """ Read the paramameters_hyper.yaml and specify the hyper parameters of the CNN model. """
 
     def __init__(self):
         with open(hyper_params_path) as file:

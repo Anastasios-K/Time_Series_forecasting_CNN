@@ -175,7 +175,7 @@ class Exploration(data_preparation.Utility_Functions):
         Returns:
             - list of segments.
             - list of target prices.
-        Default window length = 90 (configuration is available in parameters.py (general parameters)).
+        Default window length = 90 (configuration is available in parameters_general.yaml).
         The transition np.ndarray -> pd.Dataframe provides better data manipulation.
         The default target prices arise from the "Close" attribute (modify by changing target_attribute).
 

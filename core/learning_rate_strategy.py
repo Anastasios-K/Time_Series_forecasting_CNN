@@ -36,8 +36,9 @@ class Learning_Rate_Strategy:
         """
         Prepare the learning rate values.
         It is used only for learning rate visual representation.
-        The related parameters are determined in the parameters package.
-        The strategy index indicates the corresponding reduction rate value (pre-determined in parameters).
+        The related parameters are defined by the parameters.py through the yaml file parameters_general.
+        The strategy index indicates the corresponding reduction rate value
+            the pre-determined reduction rate are given through the yaml file parameters_general.
         """
         self.control_strategy_index(given_index=strategy_index)
         reduction_factor = self.lr_params.lr_reduction_rate[strategy_index]
@@ -65,7 +66,7 @@ class Learning_Rate_Strategy:
     def control_params_quantity(**given_params) -> bool:
         """
         Check whether a valid number of parameters is given.
-        To be valid: No params or 2 params should be given.
+        *** To be valid: No params or 2 params should be given.
         """
         outcome = len(given_params) not in [0, 2]
         return outcome
@@ -74,7 +75,7 @@ class Learning_Rate_Strategy:
     def control_params_name(**given_params) -> bool:
         """
         Check whether valid parameter names are given.
-        To be valid: "lr_values" and "lr_names" should be given.
+        *** To be valid: "lr_values" and "lr_names" should be given.
         """
         outcome = any([element not in ["lr_values", "lr_names"] for element in given_params.keys()])
         return outcome
@@ -83,7 +84,7 @@ class Learning_Rate_Strategy:
     def control_params_type(**given_params) -> bool:
         """
         Check whether valid data type given.
-        To be valid: list is required.
+        *** To be valid: list is required.
         """
         outcome = any([type(element) != list for element in given_params.values()])
         return outcome
@@ -144,7 +145,7 @@ class Learning_Rate_Strategy:
         Plot the learning rate values of the corresponding learning rate strategies.
         It can work with multiple value lists and names.
         If no strategy and name are specified, all the available strategies are plotted.
-        The number of strategies depends on the reduction rate values which are set at the parameters.py.
+        The number of strategies depends on the reduction rate values (given by the yaml file parameters_general).
 
         The strategy_value_and_name values are specified by the "determine_values_and_names" function.
 
