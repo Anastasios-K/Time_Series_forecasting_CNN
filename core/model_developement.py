@@ -105,20 +105,20 @@ class Training_Process_Functionality:
         if not common_ids:
             # delete all (models & reports) if one of them is completely missing.
             list(map(lambda item:
-                     os.remove(self.dir_to_save_models + "\\" + item),
+                     os.remove(os.path.join(self.dir_to_save_models, item)),
                      os.listdir(self.dir_to_save_models)))
             list(map(lambda item:
-                     os.remove(self.dir_to_save_reports + "\\" + item),
+                     os.remove(os.path.join(self.dir_to_save_reports, item)),
                      os.listdir(self.dir_to_save_reports)))
         else:
             # keep only the models and reports with common ids.
             list(map(lambda item:
-                     os.remove(self.dir_to_save_models + "\\" + item)
+                     os.remove(os.path.join(self.dir_to_save_models, item))
                      if self.consider_model_id_only(element=item) not in common_ids
                      else None,
                      os.listdir(self.dir_to_save_models)))
             list(map(lambda item:
-                     os.remove(self.dir_to_save_reports + "\\" + item)
+                     os.remove(os.path.join(self.dir_to_save_reports, item))
                      if self.consider_report_id_only(element=item) not in common_ids
                      else None,
                      os.listdir(self.dir_to_save_reports)))
@@ -143,10 +143,10 @@ class Training_Process_Functionality:
         """
         sorted_models = self.sort_given_dir_files(dir_to_check="models")
         if sorted_models:
-            os.remove(self.dir_to_save_models + "\\" + sorted_models[-1])
+            os.remove(os.path.join(self.dir_to_save_models, sorted_models[-1]))
         sorted_reports = self.sort_given_dir_files(dir_to_check="reports")
         if sorted_reports:
-            os.remove(self.dir_to_save_reports + "\\" + sorted_reports[-1])
+            os.remove(os.path.join(self.dir_to_save_reports, sorted_reports[-1]))
 
     def control_training_models(self, all_models: dict) -> dict:
         """
@@ -217,7 +217,7 @@ class Model_Development(parameters.Hyper_Params, parameters.General_Params,
                           dictionary.update({dict_keys[index]: combo[index]}),
                           range(len(dict_keys)))),
                  prep_empty_dict, self.generate_all_combinations()))
-        if self.mode == "partial":
+        if self.mode != "full":
             prep_empty_dict = prep_empty_dict[:10]
         return prep_empty_dict
 
@@ -357,13 +357,15 @@ class Model_Development(parameters.Hyper_Params, parameters.General_Params,
                                     callbacks=[
                                         EarlyStopping(monitor='val_loss', patience=self.lr_reduction_frequency),
                                         ModelCheckpoint(
-                                            filepath=os.getcwd() + f"\\{self.dir_to_save_models}\\model_{item}.h5",
+                                            filepath=os.path.join(os.getcwd(),
+                                                                  f"{self.dir_to_save_models}",
+                                                                  f"model_{item}.h5"),
                                             monitor="val_loss", verbose=0, save_best_only=True, mode="min"),
                                         lr_callback
                                     ]
                                     )
             report = self.create_report(model_id=item, results=history.history)
-            report.to_csv(self.dir_to_save_reports + f"\\report_{item}.csv", index=False)
+            report.to_csv(os.path.join(self.dir_to_save_reports, f"report_{item}.csv"), index=False)
 
 
 class Model_Selection:

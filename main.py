@@ -41,7 +41,7 @@ learning_rate_dict = learning_rate_strategy.create_lr_dict()
 
 """ Model development """
 for key in learning_rate_dict:
-    model_dev = model_developement.Model_Development(input_data=sliding_window_train_data, folder_customisation=key)
+    model_dev = model_developement.Model_Development(input_data=sliding_window_train_data, folder_customisation=key, running_mode="asdf")
     models_dict = model_dev.create_models_dict()
     model_dev.train_models(given_models=models_dict, training_targets=sliding_window_train_target,
                            lr_callback=learning_rate_dict[key])
