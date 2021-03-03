@@ -39,7 +39,7 @@ conda version: 4.8.3
  - openpyxl=3.0.5
 
 ## Requirements: dataset format
-The given dataset should have following attributes:
+The given dataset should have the following attributes:
  - Local Date
  - Local Time
  - Close
