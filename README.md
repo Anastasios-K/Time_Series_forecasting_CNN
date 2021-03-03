@@ -16,13 +16,13 @@ the summary is in progress...
 
 ## Key features
 
-1. Integration of 1D CNN and Sliding Window
-2. Exponential learning rate with restart point
-3. Experimentation with 4 learning rate strategies
-4. Best model selection considering 1280 variants
-5. Reproducibility 100%
-6. Coverage 100%
-7. Automatic recovering of the training process, in the case of unexpected interruption
+1. Integration of 1D CNN and Sliding Window.
+2. Exponential learning rate with restart point.
+3. Experimentation with 4 learning rate strategies.
+4. Best model selection considering 1280 variants.
+5. Reproducibility 100%.
+6. Coverage 100%.
+7. Automatic recovering of the training process, in the case of unexpected interruption.
 
 ## Requirements: package installation
 conda version: 4.8.3
@@ -39,7 +39,7 @@ conda version: 4.8.3
  - openpyxl=3.0.5
 
 ## Requirements: dataset format
-The given dataset should have following attributes:
+The given dataset should have the following attributes:
  - Local Date
  - Local Time
  - Close
@@ -55,10 +55,10 @@ If extra attributes are included, they are automatically removed during the data
  - To execute the whole process:
     - Run the main.py
     - the execution also includes:
-        1. preparation of the saved_models and saved_reports directories in the root path
-        2. saving plots, learning rate logs and exploration reports in the root path
-        3. saving the best weights of each trained model in the saved_models directory
-        4. saving the training progress report of each trained model in the saved_reports directory
+        1. preparation of the saved_models and saved_reports directories in the root path.
+        2. saving plots, learning rate logs and exploration reports in the root path.
+        3. saving the best weights of each trained model in the saved_models directory.
+        4. saving the training progress report of each trained model in the saved_reports directory.
  
  - To change a general parameter:
     - Change the value of the corresponding parameter
