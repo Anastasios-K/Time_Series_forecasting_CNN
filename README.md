@@ -3,10 +3,10 @@
 ## Contents
  - [Summary](#summary)
  - [Key features](#key-features)
- - [Requirements: package installation](#Requirements:-package-installation)
- - [Requirements: dataset format](#Requirements:-dataset-format)
+ - [Requirements: package installation](#requirements-package-installation)
+ - [Requirements: dataset format](#requirements-dataset-format)
  - [User guidelines](#user-guidelines)
- - [Computational resources & Execution time](#Computational-resources-&-Execution-time)
+ - [Computational resources & Execution time](#computational-resources-and-execution-time)
  - [Future development](#future-development)
  - [References](#references)
  
@@ -82,7 +82,7 @@ If extra attributes are included, they are automatically removed during the data
 
 > **WARNING**: Changing the parameters key may harm the execution
 
-## Computational resources & Execution time
+## Computational resources and Execution time
 **CPU:** Intel Core i5-9500 @ 3.00 Ghz, 6 cores  
 **GPU:** Nvidia GeForce RTX 2070 Super  
 
