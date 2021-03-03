@@ -1,7 +1,7 @@
 import pandas as pd
 import os
-os.listdir()
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"  # info and warning messages are not printed
+
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 from tensorflow.keras.losses import MeanAbsoluteError, MeanSquaredError
