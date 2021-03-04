@@ -11,7 +11,7 @@
  - [References](#references)
  
 ## Summary
-the summary is in progress...
+Coming soon...
  
 
 ## Key features
