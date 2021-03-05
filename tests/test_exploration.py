@@ -27,17 +27,19 @@ class Test_Exploration(unittest.TestCase):
         self.assertEqual(mock_list[2], expected[0])
         self.assertEqual(mock_list[5], expected[1])
 
-    def test_distribution_comparison_for_4_datasets(self):
+    def test_distribution_comparison_for_3_pandas_Series(self):
         mock_df = pd.DataFrame(data=np.random.rand(10, 4), columns=["attr1", "attr2", "attr3", "attr4"])
         mock_object = data_exploration.Exploration(data=mock_df)
-        self.assertIsNone(mock_object.distribution_comparison(mock_df["attr1"], mock_df["attr2"], mock_df["attr3"],
-                                                              mock_df["attr4"]))
+        self.assertIsNone(mock_object.distribution_comparison(series1=mock_df["attr1"], series2=mock_df["attr2"],
+                                                              series3=mock_df["attr3"]))
 
     def test_plot_series_but_ignore_date_for_2_datasets(self):
-        date_times = pd.date_range(start="04-Jan-2021", end="10-Jan-2021", freq="T")
-        mock_df = pd.DataFrame(data=np.random.rand(len(date_times), 2), columns=["attr1", "attr2"], index=date_times)
+        date_times = pd.date_range(start="04-Jan-2021", end="15-Jan-2021", freq="H")
+        mock_df = pd.DataFrame(data=np.array([np.random.uniform(1, 3, len(date_times)),
+                                              np.random.uniform(3, 5, len(date_times))]).reshape(len(date_times), 2),
+                               columns=["attr1", "attr2"], index=date_times)
         mock_object = data_exploration.Exploration(data=mock_df)
-        self.assertIsNone(mock_object.distribution_comparison(mock_df["attr1"], mock_df["attr2"]))
+        self.assertIsNone(mock_object.plot_series_but_ignore_date(series1=mock_df["attr1"], series2=mock_df["attr2"]))
 
     def test_descriptive_stats_report_for_output_data_type(self):
         mock_df = pd.DataFrame(data=np.random.rand(10, 2), columns=["attr1", "attr2"])

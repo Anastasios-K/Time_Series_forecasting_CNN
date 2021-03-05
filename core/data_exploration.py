@@ -55,7 +55,7 @@ class Exploration(data_preparation.Utility_Functions):
                   "grey", "gold", "lime", "orchid", "orange", "brown"]
         return colors
 
-    def distribution_comparison(self, *data: pd.Series, show: bool = True, save: bool = True) -> None:
+    def distribution_comparison(self, show: bool = True, save: bool = True, **data: pd.Series) -> None:
         """
         Plot the probability distribution of the given data.
         Require at least on pd.Series for data.
@@ -68,8 +68,8 @@ class Exploration(data_preparation.Utility_Functions):
         now = datetime.today().strftime("%Y%m%d_%H%M%S")
         fig3 = plt.figure(num=3, figsize=(4, 3))
         for index in range(len(data)):
-            data[index].plot(kind="kde", color=self.color_list()[index],
-                             alpha=0.5, label=data[index].name, secondary_y=False)
+            list(data.values())[index].plot(kind="kde", color=self.color_list()[index], alpha=0.5, secondary_y=False,
+                                            label=list(data.keys())[index] + " " + list(data.values())[index].name)
         frame1 = plt.gca()
         frame1.axes.get_yaxis().set_visible(False)
         plt.legend()
@@ -79,7 +79,7 @@ class Exploration(data_preparation.Utility_Functions):
         if show:
             fig3.show()
 
-    def plot_series_but_ignore_date(self, *data: pd.Series, show: bool = True, save: bool = True) -> None:
+    def plot_series_but_ignore_date(self, show: bool = True, save: bool = True, **data: pd.Series) -> None:
         """
         Plot stock times-series without considering the price discontinuity because of the weekend days.
         Require at least on pd.Series for data.
@@ -93,8 +93,9 @@ class Exploration(data_preparation.Utility_Functions):
         fig4 = plt.figure(num=4, figsize=(10, 4))
         ax0 = fig4.add_subplot(111)
         for index in range(len(data)):
-            series_no_date = data[index].reset_index(drop=True)
-            ax0.plot(series_no_date, color=self.color_list()[index], alpha=0.5, label=series_no_date.name)
+            series_no_date = list(data.values())[index].reset_index(drop=True)
+            ax0.plot(series_no_date, color=self.color_list()[index], alpha=0.5,
+                     label=list(data.keys())[index] + " " + series_no_date.name)
         plt.tick_params(axis='x', bottom=False, top=False, labelbottom=False)
         plt.legend()
         if save:
