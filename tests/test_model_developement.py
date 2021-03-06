@@ -3,6 +3,8 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"  # info and warning messages are not pr
 
 import unittest
 import shutil
+import os
+import pandas as pd
 import numpy as np
 import random
 import tensorflow as tf
@@ -238,7 +240,22 @@ class Test_Model_Developement(unittest.TestCase):
         expected_attributes = ["models", "epochs", "loss", "result2"]
         self.assertListEqual(list(mock_report.columns), expected_attributes)
 
+class Test_Model_Selection(unittest.TestCase):
+
+    def test_multi_csv_to_dfs_for_2_csv_files(self):
+        mock_object = model_developement.Model_Selection()
+        mock_csvs_dir = "mock_csv_files"
+        os.mkdir(mock_csvs_dir)
+        mock_df1 = pd.DataFrame(data=np.array([[1, 2],
+                                               [3, 4]]), columns=["attr1", "attr2"])
+        mock_df2 = pd.DataFrame(data=np.array([[5, 6],
+                                               [7, 8]]), columns=["attr1", "attr2"])
+        mock_df1.to_csv(os.path.join(mock_csvs_dir, f"mock_csv1.csv"), index=False)
+        mock_df2.to_csv(os.path.join(mock_csvs_dir, f"mock_csv2.csv"), index=False)
+        expected = [list, pd.DataFrame]
+        self.assertEqual(type(mock_object.multi_csv_to_dfs(given_dir=mock_csvs_dir)), expected[0])
+        self.assertEqual(type(mock_object.multi_csv_to_dfs(given_dir=mock_csvs_dir)[0]), expected[1])
+        self.assertTrue(all(mock_object.multi_csv_to_dfs(given_dir=mock_csvs_dir)[0] == mock_df1))
 
 if __name__ == "__main__":
     unittest.main()
-
