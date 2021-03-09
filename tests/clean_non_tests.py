@@ -1,16 +1,15 @@
 import os
+import shutil
 
 
 def clean_non_test_files() -> None:
-    """
-    Remove all non-test files from the current directory.
-
-    """
-    valid_files = list(filter(lambda file:
+    """ Remove all non-test files and folders from the current directory. """
+    valid_items = list(filter(lambda file:
                               file.startswith("test") or file.startswith("clean"),
                               os.listdir()))
 
-    [os.remove(file) for file in os.listdir() if file not in valid_files]
+    [shutil.rmtree(item) for item in os.listdir() if item not in valid_items and os.path.isdir(item)]
+    [os.remove(file) for file in os.listdir() if file not in valid_items]
 
 
-clean_non_test_files()
+a = clean_non_test_files()
