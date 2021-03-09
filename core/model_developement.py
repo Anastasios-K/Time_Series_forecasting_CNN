@@ -380,12 +380,18 @@ class Model_Selection:
 
     @staticmethod
     def create_final_dir():
+        """ Create a new directory where the final report are saved. """
         if "final_reports" in os.listdir():
             shutil.rmtree("final_reports")
 
         os.mkdir("final_reports")
 
     def create_final_reports(self) -> dict:
+        """
+        1. Concatenate the reports of each learning rate strategy.
+        2. Create a final report for each strategy.
+        3. Save the final report in a separate dir called "final_reports"
+        """
         final_rep_dict = {}
         self.create_final_dir()
         for item in os.listdir():
@@ -399,7 +405,7 @@ class Model_Selection:
         return final_rep_dict
 
     def get_best_model_characteristics(self) -> dict:
-        best_char = {
+        best_model_characteristics = {
             "best_performance": 2**32,
             "best_model": "",
             "best_lr_strategy": ""
@@ -407,11 +413,12 @@ class Model_Selection:
         final_reports_dict = self.create_final_reports()
         for item in final_reports_dict:
             performance = final_reports_dict[item]["val_loss"].min()
-            if performance < best_char["best_performance"]:
-                best_char["best_performance"] = performance
-                best_char["best_model"] = final_reports_dict[item]["models"][
+            if performance < best_model_characteristics["best_performance"]:
+                best_model_characteristics["best_performance"] = performance
+                best_model_characteristics["best_model"] = int(final_reports_dict[item]["models"][
                     final_reports_dict[item]["val_loss"] == performance
-                ]
-                best_char["best_lr_strategy"] = item.split("report_")[1]
-        return best_char
+                ])
+                best_model_characteristics["best_lr_strategy"] = item.split("report_")[1]
+        return best_model_characteristics
+
 
