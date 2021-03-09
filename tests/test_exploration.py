@@ -36,7 +36,8 @@ class Test_Exploration(unittest.TestCase):
     def test_plot_series_but_ignore_date_for_2_datasets(self):
         date_times = pd.date_range(start="04-Jan-2021", end="15-Jan-2021", freq="H")
         mock_df = pd.DataFrame(data=np.array([np.random.uniform(1, 3, len(date_times)),
-                                              np.random.uniform(3, 5, len(date_times))]).reshape(len(date_times), 2),
+                                              np.random.uniform(3, 5, len(date_times))
+                                              ]).T,
                                columns=["attr1", "attr2"], index=date_times)
         mock_object = data_exploration.Exploration(data=mock_df)
         self.assertIsNone(mock_object.plot_series_but_ignore_date(series1=mock_df["attr1"], series2=mock_df["attr2"]))
