@@ -11,7 +11,7 @@ from core import data_preparation, data_exploration, learning_rate_strategy, mod
 df = pd.read_csv(os.path.join(os.getcwd(), "data", "GSK per min.csv"))
 
 """ Data Preparation """
-prepare = data_preparation.Preparation(data=df, )
+prepare = data_preparation.Preparation(data=df)
 prepare.set_timestamps_as_index()
 prepare.sort_by_timestamp()
 prepare.drop_unused()
@@ -21,10 +21,10 @@ prepare.plot_daily_prices(show=True)
 prepare.plot_prices_and_projection(show=True)
 
 """ Data Exploration """
-explore = data_exploration.Exploration(data=prepare.data, running_mode="asdf")
+explore = data_exploration.Exploration(data=prepare.data)
 train_set, test_set = explore.split_train_test()
-explore.distribution_comparison(train_set["Close"], test_set["Close"], show=True)
-explore.plot_series_but_ignore_date(train_set["Close"], test_set["Close"], show=True)
+explore.distribution_comparison(train_set=train_set["Close"], test_set=test_set["Close"], show=True)
+explore.plot_series_but_ignore_date(train_set=train_set["Close"], test_set=test_set["Close"], show=True)
 train_report = explore.custom_stat_report(data=train_set, name="Train")
 test_report = explore.custom_stat_report(data=train_set, name="Test")
 explore.box_plots(data=train_set, show=True)
@@ -41,7 +41,7 @@ learning_rate_dict = learning_rate_strategy.create_lr_dict()
 
 """ Model development """
 for key in learning_rate_dict:
-    model_dev = model_developement.Model_Development(input_data=sliding_window_train_data, folder_customisation=key, running_mode="asdf")
+    model_dev = model_developement.Model_Development(input_data=sliding_window_train_data, folder_customisation=key)
     models_dict = model_dev.create_models_dict()
     model_dev.train_models(given_models=models_dict, training_targets=sliding_window_train_target,
                            lr_callback=learning_rate_dict[key])
@@ -65,4 +65,3 @@ mae_eval = mae(sliding_window_test_target, prediction).numpy()
 print(f"RMSE = {rmse_eval}",
       f"MSE = {mse_eval}",
       f"MAE = {mae_eval}")
-
